@@ -1,6 +1,6 @@
-import numpy as np
 import torch
 from matplotlib import pyplot as plt
+import torch.utils.data as data_utils
 
 from tqdm import tqdm
 from models.decoder import Decoder
@@ -92,8 +92,8 @@ def main():
     plot_images_arrays(decoder_model, encoder_model, fc_model, ifc_model,
                        latent_classifier, old_decoder, old_ifc, testloader)
 
-    torch.save(ifc_model.state_dict(), 'weights/classifier_ifc.pth')
-    torch.save(decoder_model.state_dict(), 'weights/classifier_decoder.pth')
+    torch.save(ifc_model.state_dict(), 'weights/q3/classifier_ifc.pth')
+    torch.save(decoder_model.state_dict(), 'weights/q3/classifier_decoder.pth')
 
 
 def plot_images_arrays(decoder_model, encoder_model, fc_model, ifc_model, latent_classifier, old_decoder, old_ifc,
@@ -137,6 +137,9 @@ def reconstructions_array_plot(encoder_model,
 
 
 def get_random_images(test_loader, num_images: int = 50):
-    total_samples = len(test_loader.dataset)
-    indices = np.random.choice(total_samples, num_images, replace=False)
-    return torch.stack([image for image, _ in test_loader.dataset[indices]])
+    train_dataset = test_loader.dataset
+    indices = torch.arange(num_images)
+    train_loader_CLS = data_utils.Subset(train_dataset, indices)
+    data_loader = torch.utils.data.DataLoader(train_loader_CLS, batch_size=num_images,
+                                              shuffle=True, num_workers=0)
+    return torch.stack([image for image, _ in next(iter(data_loader))])
