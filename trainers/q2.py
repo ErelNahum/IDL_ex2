@@ -1,53 +1,58 @@
 import torch
 from models.encoder import Encoder
 from models.fc_layer import FCLayer
-from models.ifc_layer import InverseFCLayer
-from models.decoder import Decoder
+from models.latent_classifier import Classifier
 from tqdm import tqdm
 from utils import create_data_loaders, plot_train_test_loss, visualize_reconstructions
 
 TRAIN_BATCH_SIZE = 30
 TEST_BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 40
+NUMBER_OF_EPOCHS = 4
 
 device = torch.device("cpu")
 
-def train(dataloader, encoder_model, fc_model, ifc_model, decoder_model, loss_fn, optimizer):
-    encoder_model.train()
-    fc_model.train()
-    ifc_model.train()
-    decoder_model.train()
+def train(dataloader, encoder_model, fc_model, classifier_model, loss_fn, optimizer):
+    encoder_model.eval()
+    fc_model.eval()
+    classifier_model.train()
 
     for images, labels in tqdm(dataloader,
                                 total=len(dataloader),
                                 desc='Training'):
 
         # Compute prediction error
-        recunstructed_images = decoder_model(ifc_model(fc_model(encoder_model(images))))
-        loss = loss_fn(recunstructed_images, images)
+        preds = classifier_model(fc_model(encoder_model(images)))
+        labels = torch.nn.functional.one_hot(labels, 10)
+        loss = loss_fn(preds, labels)
 
         # Backpropagation
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
 
-def test(dataloader, encoder_model, fc_model, ifc_model, decoder_model, loss_fn):
+def test(dataloader, encoder_model, fc_model, classifier_model, loss_fn):
     encoder_model.eval()
     fc_model.eval()
-    ifc_model.eval()
-    decoder_model.eval()
+    classifier_model.eval()
 
     total_loss = 0
+    total_successes = 0
     with torch.no_grad():
         for images, labels in tqdm(dataloader,
                                    total=len(dataloader),
                                    desc='Calculating Loss'):
-            recunstructed_images = decoder_model(ifc_model(fc_model(encoder_model(images))))
-            total_loss += loss_fn(recunstructed_images, images).item()
+            preds = classifier_model(fc_model(encoder_model(images)))
+            labels = torch.nn.functional.one_hot(labels, 10)
+            total_loss += loss_fn(preds, labels).item()
+            
+            labels = torch.argmax(labels, dim=1)
+            preds = torch.argmax(labels, dim=1)
+            total_successes += (labels == preds).sum().item()
     
     total_loss /= len(dataloader)
-    print(total_loss)
-    return total_loss
+    total_successes /= len(dataloader.dataset)
+    print(total_loss, total_successes)
+    return total_loss, total_successes
 
 
 
