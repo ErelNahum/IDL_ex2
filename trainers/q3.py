@@ -14,7 +14,7 @@ LATENT_DIMENSION = 10
 
 TRAIN_BATCH_SIZE = 30
 TEST_BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 1
+NUMBER_OF_EPOCHS = 40
 
 device = torch.device("cpu")
 
@@ -126,20 +126,18 @@ def reconstructions_array_plot(encoder_model,
             reconstructions = decoder_model(ifc_model(fc_model(encoder_model(examples))))
         else:
             reconstructions = decoder_model(ifc_model(classifier_model(fc_model(encoder_model(examples)))))
-    fig, axes = plt.subplots(nrows=num_images // images_per_row, ncols=images_per_row, figsize=(num_images, 4))
+    fig, axes = plt.subplots(nrows=num_images // images_per_row, ncols=images_per_row)
     for i in range(num_images):
         axes[i // images_per_row, i % images_per_row].imshow(reconstructions[i].cpu().numpy().squeeze(), cmap='gray')
         axes[i // images_per_row, i % images_per_row].axis('off')
-    axes[1, 0].set_title(title)
-    plt.tight_layout()
     plt.show()
-    plt.savefig('q3_' + title + '.png')
 
 
 def get_random_images(test_loader, num_images: int = 50):
     train_dataset = test_loader.dataset
     indices = torch.arange(num_images)
     train_loader_CLS = data_utils.Subset(train_dataset, indices)
+    return torch.stack([image for image, _ in train_loader_CLS])
     data_loader = torch.utils.data.DataLoader(train_loader_CLS, batch_size=num_images,
                                               shuffle=True, num_workers=0)
     return torch.stack([image for image, _ in next(iter(data_loader))])

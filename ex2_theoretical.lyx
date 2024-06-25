@@ -306,26 +306,6 @@ y'\left(t\right)=\left(x'\ast h\right)\left(t\right)=\sum_{\tau}x'\left(\tau\rig
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-for i in range(len(arr)):
-\end_layout
-
-\begin_layout Plain Layout
-
-	sdflkjsdf
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 אינווריאנטיות בזמן/מרחב של שכבות מוכרות
 \end_layout
@@ -585,6 +565,178 @@ H_{ij}=h\left(i-j\right)
 \end_inset
 
 
+\end_layout
+
+\begin_layout Part
+ניסויים מעשיים
+\end_layout
+
+\begin_layout Section
+\begin_inset Formula $\text{AutoEncoder}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+חילקנו את המודל לארבעה רכיבים שונים:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\text{Encoder}$
+\end_inset
+
+ - מתחיל מתמונה בגודל 
+\begin_inset Formula $28\times28$
+\end_inset
+
+ ובאמצעות שכבות קונבולוציה, 
+\begin_inset Formula $\text{pooling}$
+\end_inset
+
+ ואקטיבציות לא לינאריות עובר למימד מרחבי של 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ , ב-
+\begin_inset Formula $32$
+\end_inset
+
+ ערוצים.
+\end_layout
+
+\begin_layout Enumerate
+שכבת 
+\begin_inset Formula $\text{FC}$
+\end_inset
+
+ - משטחת את התמונה לוקטור וכופלת במטריצת משקולות שמעבירה לוקטור בגודל
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)
+\begin_inset Formula $\text{latent}\;\text{space}$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Enumerate
+שכבת 
+\begin_inset Formula $\text{IFC}$
+\end_inset
+
+ - מחזירה מה-
+\begin_inset Formula $\text{latent}\;\text{space}$
+\end_inset
+
+ למימד מרחבי של 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ , ב-
+\begin_inset Formula $32$
+\end_inset
+
+ ערוצים.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\text{Decoder}$
+\end_inset
+
+ - מתחיל במימד מרחבי של 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ , ב-
+\numeric on
+32
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ערוצים ובאמצעות שכבות 
+\begin_inset Formula $\text{UpConv}$
+\end_inset
+
+ ואקטיבציות לא לינאריות חוזר למימד של תמונה רגילה )
+\begin_inset Formula $28\times28$
+\end_inset
+
+ , בערוץ אחד(.
 \end_layout
 
 \end_body
