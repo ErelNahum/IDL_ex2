@@ -31,8 +31,8 @@ def plot_train_test_loss(train_losses,
 
 def plot_train_test_accuracy(train_accuracy,
                          test_accuracy):
-    plt.plot(train_accuracy, 'r', label='test accuracy')
-    plt.plot(test_accuracy, 'b', label='train accuracy')
+    plt.plot(train_accuracy, 'r', label='train accuracy')
+    plt.plot(test_accuracy, 'b', label='test accuracy')
     plt.xlabel('Epochs (#)')
     plt.ylabel('Accuracy')
     plt.legend(loc="lower right")

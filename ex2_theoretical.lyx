@@ -5,6 +5,9 @@
 \save_transient_properties true
 \origin unavailable
 \textclass extarticle
+\begin_preamble
+\usepackage{listings}
+\end_preamble
 \use_default_options true
 \begin_modules
 theorems-ams
@@ -310,22 +313,12 @@ status open
 
 \begin_layout Plain Layout
 
-what it is a program
+for i in range(len(arr)):
 \end_layout
 
 \begin_layout Plain Layout
 
-sdflkjsdf
-\end_layout
-
-\begin_layout Plain Layout
-
-sdflkjsdf
-\end_layout
-
-\begin_layout Plain Layout
-
-sflksjdf
+	sdflkjsdf
 \end_layout
 
 \end_inset

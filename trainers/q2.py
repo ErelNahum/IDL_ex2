@@ -7,7 +7,7 @@ from utils import create_data_loaders, plot_train_test_loss, plot_train_test_acc
 
 TRAIN_BATCH_SIZE = 30
 TEST_BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 20
+NUMBER_OF_EPOCHS = 13
 
 device = torch.device("cpu")
 

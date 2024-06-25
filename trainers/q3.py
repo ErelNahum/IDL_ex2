@@ -14,7 +14,7 @@ LATENT_DIMENSION = 10
 
 TRAIN_BATCH_SIZE = 30
 TEST_BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 40
+NUMBER_OF_EPOCHS = 1
 
 device = torch.device("cpu")
 
@@ -57,7 +57,7 @@ def test(dataloader, encoder_model, fc_model, latent_classifier, ifc_model, deco
 
 
 def main():
-    trainloader, testloader = create_data_loaders()
+    trainloader, testloader = create_data_loaders(TRAIN_BATCH_SIZE, TEST_BATCH_SIZE)
 
     encoder_model = Encoder().to(device)
     fc_model = FCLayer().to(device)
@@ -79,7 +79,7 @@ def main():
     test_loss_over_epochs = []
     for epoch_number in range(NUMBER_OF_EPOCHS):
         print(f'Epoch#: {epoch_number + 1}\n------------')
-        train(trainloader, encoder_model, fc_model, ifc_model, decoder_model, loss_fn, optimizer)
+        train(trainloader, encoder_model, fc_model, latent_classifier, ifc_model, decoder_model, loss_fn, optimizer)
         train_loss_over_epochs.append(
             test(trainloader, encoder_model, fc_model, latent_classifier, ifc_model, decoder_model, loss_fn)
         )
@@ -105,11 +105,11 @@ def plot_images_arrays(decoder_model, encoder_model, fc_model, ifc_model, latent
 
 
 def load_trained_models(encoder_model, fc_model, latent_classifier, old_ifc, old_decoder):
-    encoder_model.load_state_dict(torch.load('weights/encoder.pth'))
-    fc_model.load_state_dict(torch.load('weights/fc.pth'))
-    latent_classifier.load_state_dict(torch.load('weights/latent_classifier.pth'))
-    old_ifc.load_state_dict(torch.load('weights/ifc.pth'))
-    old_decoder.load_state_dict(torch.load('weights/decoder.pth'))
+    encoder_model.load_state_dict(torch.load('weights/q1/encoder.pth'))
+    fc_model.load_state_dict(torch.load('weights/q1/fc.pth'))
+    latent_classifier.load_state_dict(torch.load('weights/q2/classifier.pth'))
+    old_ifc.load_state_dict(torch.load('weights/q1/ifc.pth'))
+    old_decoder.load_state_dict(torch.load('weights/q1/decoder.pth'))
 
 
 def reconstructions_array_plot(encoder_model,
@@ -143,3 +143,6 @@ def get_random_images(test_loader, num_images: int = 50):
     data_loader = torch.utils.data.DataLoader(train_loader_CLS, batch_size=num_images,
                                               shuffle=True, num_workers=0)
     return torch.stack([image for image, _ in next(iter(data_loader))])
+
+if __name__ == '__main__':
+    main()
