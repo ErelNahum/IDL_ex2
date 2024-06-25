@@ -1,8 +1,10 @@
 from torchvision import transforms, datasets
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Subset
 import matplotlib.pyplot as plt
 from functools import cache
 import torch
+
+TRAIN_DATA_SIZE = 100
 
 
 def create_data_loaders(train_batch_size, test_batch_size):
@@ -29,8 +31,9 @@ def plot_train_test_loss(train_losses,
     plt.title('Train/Test Loss Over Epochs')
     plt.show()
 
+
 def plot_train_test_accuracy(train_accuracy,
-                         test_accuracy):
+                             test_accuracy):
     plt.plot(train_accuracy, 'r', label='train accuracy')
     plt.plot(test_accuracy, 'b', label='test accuracy')
     plt.xlabel('Epochs (#)')
@@ -38,6 +41,7 @@ def plot_train_test_accuracy(train_accuracy,
     plt.legend(loc="lower right")
     plt.title('Train/Test Accuracy Over Epochs')
     plt.show()
+
 
 def visualize_reconstructions(encoder_model,
                               fc_model,
@@ -75,3 +79,16 @@ def pick_images(test_loader, device, num_labels=10):
     # Sort images by label and stack them into a tensor
     sorted_images = [images_dict[i] for i in range(num_labels)]
     return torch.stack(sorted_images).to(device)
+
+
+def get_small_train_dataloader(batch_size: int):
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,), (0.5,))  # Normalize the images to [-1, 1] range
+    ])
+
+    train_dataset = datasets.MNIST("data", train=True, download=True, transform=transform)
+    indices = torch.arange(TRAIN_DATA_SIZE)
+    train_loader_CLS = Subset(train_dataset, indices)
+    return torch.utils.data.DataLoader(train_loader_CLS,
+                                       batch_size=batch_size, shuffle=True, num_workers=0)

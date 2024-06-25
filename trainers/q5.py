@@ -13,8 +13,6 @@ device = torch.device("cpu")
 
 
 def train(dataloader, encoder_model, fc_model, classifier_model, loss_fn, optimizer):
-    encoder_model.train()
-    fc_model.train()
     classifier_model.train()
 
     for images, labels in tqdm(dataloader,
@@ -64,11 +62,7 @@ def main():
     fc_model = FCLayer().to(device)
     classifier_model = Classifier().to(device)
 
-    optimizer = torch.optim.Adam(
-        list(encoder_model.parameters())
-        + list(fc_model.parameters())
-        + list(classifier_model.parameters())
-    )
+    optimizer = torch.optim.Adam(classifier_model.parameters())
 
     loss_fn = torch.nn.CrossEntropyLoss()
     train_loss_over_epochs = []
@@ -88,9 +82,7 @@ def main():
     plot_train_test_loss(train_loss_over_epochs, test_loss_over_epochs, 'Cross Entropy Loss')
     plot_train_test_accuracy(train_accuracy_over_epochs, test_accuracy_over_epochs)
 
-    torch.save(encoder_model.state_dict(), 'weights/q4/encoder.pth')
-    torch.save(fc_model.state_dict(), 'weights/q4/fc.pth')
-    torch.save(classifier_model.state_dict(), 'weights/q4/classifier.pth')
+    torch.save(classifier_model.state_dict(), 'weights/q5/classifier.pth')
 
 
 if __name__ == '__main__':
