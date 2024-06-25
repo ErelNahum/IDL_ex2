@@ -29,6 +29,15 @@ def plot_train_test_loss(train_losses,
     plt.title('Train/Test Loss Over Epochs')
     plt.show()
 
+def plot_train_test_accuracy(train_accuracy,
+                         test_accuracy):
+    plt.plot(train_accuracy, 'r', label='test accuracy')
+    plt.plot(test_accuracy, 'b', label='train accuracy')
+    plt.xlabel('Epochs (#)')
+    plt.ylabel('Accuracy')
+    plt.legend(loc="lower right")
+    plt.title('Train/Test Accuracy Over Epochs')
+    plt.show()
 
 def visualize_reconstructions(encoder_model,
                               fc_model,

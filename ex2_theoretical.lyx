@@ -303,6 +303,36 @@ y'\left(t\right)=\left(x'\ast h\right)\left(t\right)=\sum_{\tau}x'\left(\tau\rig
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+what it is a program
+\end_layout
+
+\begin_layout Plain Layout
+
+sdflkjsdf
+\end_layout
+
+\begin_layout Plain Layout
+
+sdflkjsdf
+\end_layout
+
+\begin_layout Plain Layout
+
+sflksjdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 אינווריאנטיות בזמן/מרחב של שכבות מוכרות
 \end_layout

@@ -6,8 +6,7 @@ class Classifier(nn.Module):
         self.layers = nn.Sequential(
             nn.Linear(12, 10),
             nn.ReLU(),
-            nn.Linear(10, 10),
-            nn.Softmax()
+            nn.Linear(10, 10)
         )
     def forward(self, x):
         return self.layers(x)
