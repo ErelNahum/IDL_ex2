@@ -1,5 +1,8 @@
 import torch
-from model import Encoder, Decoder, FCLayer, InverseFCLayer
+from models.encoder import Encoder
+from models.fc_layer import FCLayer
+from models.ifc_layer import InverseFCLayer
+from models.decoder import Decoder
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -124,10 +127,10 @@ def main():
     plot_train_test_loss(train_loss_over_epochs, test_loss_over_epochs)
     visualize_reconstructions(encoder_model, fc_model, ifc_model, decoder_model, testloader)
 
-    torch.save(encoder_model.state_dict(), 'models/encoder.pth')
-    torch.save(fc_model.state_dict(), 'models/fc.pth')
-    torch.save(ifc_model.state_dict(), 'models/ifc.pth')
-    torch.save(decoder_model.state_dict(), 'models/decoder.pth')
+    torch.save(encoder_model.state_dict(), 'weights/encoder.pth')
+    torch.save(fc_model.state_dict(), 'weights/fc.pth')
+    torch.save(ifc_model.state_dict(), 'weights/ifc.pth')
+    torch.save(decoder_model.state_dict(), 'weights/decoder.pth')
 
 
 @cache

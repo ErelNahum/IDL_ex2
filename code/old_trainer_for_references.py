@@ -1,5 +1,5 @@
 import torch
-from model import AutoEncoder
+from models.model import AutoEncoder
 from torch.utils.data import DataLoader, random_split
 from torchvision import datasets, transforms
 from torch.nn import Module
@@ -149,12 +149,7 @@ def main():
     model = AutoEncoder()
     model = model.to(device)
     loss_fn = torch.nn.L1Loss()
-    # optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
     optimizer = torch.optim.Adam(model.parameters())
-    train_losses = []
-    test_losses = []
-    # train_accuracies = []
-    # test_accuracies = []
 
     epochs = range(NUMBER_OF_EPOCHS)
     for epoch_index in epochs:
