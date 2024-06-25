@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from functools import cache
 import torch
 
+
 def create_data_loaders(train_batch_size, test_batch_size):
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -16,6 +17,7 @@ def create_data_loaders(train_batch_size, test_batch_size):
 
     return train_loader, test_loader
 
+
 def plot_train_test_loss(train_losses,
                          test_losses,
                          ylabel):
@@ -27,13 +29,14 @@ def plot_train_test_loss(train_losses,
     plt.title('Train/Test Loss Over Epochs')
     plt.show()
 
+
 def visualize_reconstructions(encoder_model,
                               fc_model,
                               ifc_model,
                               decoder_model,
                               device,
-                              test_loader, num_images=10):
-    
+                              test_loader,
+                              num_images=10):
     examples = pick_images(test_loader, device)
     with torch.no_grad():
         reconstructions = decoder_model(ifc_model(fc_model(encoder_model(examples))))
@@ -47,6 +50,7 @@ def visualize_reconstructions(encoder_model,
     axes[1, 0].set_title('Reconstructed')
     plt.tight_layout()
     plt.show()
+
 
 @cache
 def pick_images(test_loader, device, num_labels=10):
